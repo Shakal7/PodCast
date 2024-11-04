@@ -25,5 +25,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', a_views.Explore, name='Explore'),
     path('home', a_views.home, name='home'),
+    path('signUpCreator', a_views.signUpCreator, name='signUpCreator'),
+    path('signUpListener', a_views.signUpListener, name='signUpListener'),
+    path('login', a_views.loginUser, name='login'),
+    path('logOut', a_views.logOut, name='logOut'),
+    path('upload_episode/', a_views.upload_episode, name='upload_episode'),
+    path('delete_epi/<str:id>', a_views.delete_epi, name='delete_epi'),
+    path('player/<str:id>', a_views.player, name='player'),
 
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

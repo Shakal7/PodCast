@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Subscription</title>
+</head>
+<body>
+    <h1>Activate Premium Access</h1>
+    
+    <form method="post" action="{% url 'activate_premium' %}">
+        {% csrf_token %}
+        <button type="submit">Activate Premium Access</button>
+    </form>
+    
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
