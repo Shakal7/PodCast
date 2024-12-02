@@ -9,8 +9,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="styles.css">
 
-
-    <style>
+ <style>
 
       body{
         margin: 0;
@@ -26,7 +25,7 @@
         );
       }
 
-      
+
         .card {
             width: 70%;
             height: 87%;
@@ -40,45 +39,45 @@
             transition: all 0.4s ease;
             box-shadow: none; /* No shadow initially */
         }
-    
+
         /* Show card shape and color on hover */
         .card:hover {
-            background: linear-gradient(135deg,#1b2631 , #00509E); 
+            background: linear-gradient(135deg,#1b2631 , #00509E);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             padding: 10px; /* Add some padding on hover */
             border-radius: 12px; /* Slightly increase border radius */
             color: #FFFFFF;
-            
+
         }
-    
+
         /* Image Styling */
         .card-img-top {
             width: 100%;
             height: 160px;
             object-fit: cover; /* Maintain aspect ratio */
         }
-    
+
         /* Body Content Styling */
         .card-body {
             padding: 15px;
         }
-    
+
         .card-title {
             font-size: 1rem;
             font-weight: 600;
             color: White
         }
-    
+
         .card-subtitle {
             font-size: 0.85rem;
             color: #b3b3b3; /* Subtitle color */
         }
-    
+
         .card-text {
             font-size: 0.8rem;
             color: White; /* Text color */
         }
-    
+
          /* Play Button Styling */
     .btn-play {
         background-color: #28a745; /* Button color */
@@ -111,6 +110,8 @@
         color: #FFFFFF; /* Icon color */
     }
     </style>
+
+
 </head>
 <body>
 
@@ -120,7 +121,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a style="color: Blue; font-family: Pacifico" class="navbar-brand" href="#">BanglaCast</a>
-  
+
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
@@ -137,23 +138,23 @@
             <a class="dropdown-item" href="{% url 'signUpCreator'  %}">Creator</a>
             <a class="dropdown-item" href="{% url 'signUpListener'  %}">Listener</a>
             <div class="dropdown-divider"></div>
-          </div> 
+          </div>
         </li>
          {% if user.is_authenticated %}
-  
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logOut' %}">Log Out</a>
           </li>
         <li class="nav-item" style="color:white">
-  
+
             <p style="padding-top: 6px; padding-left: 10px" > {{request.user.username}} </p>
         </li>
         {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>
           </li>
-        {% endif %} 
-  
+        {% endif %}
+
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -161,38 +162,52 @@
       </form>
     </div>
   </nav>
-  
-  <div class="row justify" style="padding: 7% 2%;">
-    {% for i in episode %}
+
+<!-- home.html -->
+<div class="row justify" style="padding: 7% 2%;">
+    {% for i in episodes %}
     <div class="col-6 col-md-4 col-lg-3 mb-4">
         <div class="card">
             <!-- Card Image -->
-            <img class="card-img-top" src="{{ i.image.url}}" alt="Episode Image" >
-            
+            <img class="card-img-top" src="{{ i.image.url }}" alt="Episode Image" >
+
             <!-- Card Body Content -->
             <div class="card-body">
-                <h5 class="card-title">{{ i.Title }}</h5>
+                <!-- Corrected fields with lowercase -->
+                 <h5 class="card-title">{{ i.Title }}</h5>
                 <h6 class="card-subtitle">{{ i.Artist }}</h6>
                 <p class="card-text">{{ i.Type }}</p>
-                <a href="{% url 'player' i.id%}" class="btn btn-play mt-2">
+                <a href="{% url 'player' i.id %}" class="btn btn-play mt-2">
                     <i class="fas fa-play"></i>
                 </a>
                 {% if request.user.profile.is_creator %}
-                <a  href="{% url 'delete_epi' i.id%}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'delete_epi' i.id %}" class="btn btn-danger">Delete</a>
                 {% endif %}
-
             </div>
         </div>
     </div>
+    {% empty %}
+        <p class="text-center">No episodes available.</p>
     {% endfor %}
 </div>
 
-
-{% if request.user.profile.is_creator %}
-<div class="d-grid gap-2 col-2 max-auto" style="padding-left:37%; padding-top:3%">
-  <a href="{% url 'upload_episode' %}" class="btn btn-primary">Add Episode</a>
+<!-- More Episodes Button for Premium Users -->
+{% if request.user.is_authenticated and request.user.profile.is_premium %}
+<div class="d-grid gap-2 col-2 max-auto" style="padding-left:37%; padding-top:3%;">
+    <a href="{% url 'more_option' %}" class="btn btn-primary">More Episodes</a>
 </div>
 {% endif %}
+
+<!-- More Episodes and Add Episode Buttons for Creators -->
+{% if request.user.profile.is_creator %}
+<div class="d-flex justify-content-center" style="gap: 30px; padding-top: 3%;">
+    <a href="{% url 'more_option' %}" class="btn btn-primary">More Episodes</a>
+    <a href="{% url 'upload_episode' %}" class="btn btn-primary">Add Episode</a>
+</div>
+{% endif %}
+
+
+
 
 
 

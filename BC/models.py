@@ -9,9 +9,9 @@ class Episode(models.Model):
     Title = models.CharField(max_length=200)
     Artist = models.CharField(max_length=200, blank=True, null=True)
     Type = models.CharField(max_length=200, blank=True, null=True)
-
     image = models.ImageField(blank=True, null=True, default='images/default.jpg')
     audio_files = models.FileField(blank=True, null=True)
+    is_premium = models.BooleanField(default=False)
 
     def __str__(self):
         return self.Title
@@ -21,7 +21,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     is_creator = models.BooleanField(default=False)
-    is_premiumMember = models.BooleanField(default=False)
+    is_premium = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
