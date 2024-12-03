@@ -34,6 +34,7 @@ urlpatterns = [
     path('delete_epi/<str:id>', a_views.delete_epi, name='delete_epi'),
     path('player/<str:id>', a_views.player, name='player'),
     path('more/', a_views.more_option, name='more_option'),
+    path('search/', a_views.search_episodes, name='search_episodes'),
 
 ]
 

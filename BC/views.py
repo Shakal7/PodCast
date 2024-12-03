@@ -17,25 +17,21 @@ def Explore(request):
     return render(request, 'Explore.html')
 
 
-from django.shortcuts import render
-from .models import Episode
-
-# views.py
-from django.shortcuts import render, redirect
-from .models import Episode
-
-
 def home(request):
     # If the user is not authenticated, redirect them to the login page
     if not request.user.is_authenticated:
         return redirect('login')
 
+    # Ensure the user has a profile
+    if not hasattr(request.user, 'profile'):
+        Profile.objects.create(user=request.user)
+
     # Fetch free episodes for all users
     episodes = Episode.objects.filter(is_premium=False)
 
     # If the user is premium, show all episodes
-    if request.user.profile.is_premium:
-        episodes = Episode.objects.all()
+    # if request.user.profile.is_premium:
+    #     episodes = Episode.objects.all()
 
     context = {
         'episodes': episodes,
@@ -94,20 +90,21 @@ def signUpPremium(request):
 
 def loginUser(request):
     if request.user.is_authenticated:
-        return redirect('/')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+        return redirect('home')  # Redirect to 'home' instead of '/'
 
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                print("Not valid !")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        return render(request, 'login.html')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            next_url = request.GET.get('next')  # Get 'next' parameter if available
+            return redirect(next_url or 'home')  # Redirect to 'next' or 'home'
+        else:
+            messages.error(request, "Invalid username or password!")  # Add error message
+
+    return render(request, 'login.html')
 
 
 def logOut(request):
@@ -194,3 +191,10 @@ def more_option(request):
         'episodes': episodes,
     }
     return render(request, 'home.html', context)
+
+
+def search_episodes(request):
+    query = request.GET.get('q', '')  # Get the query from the search form
+    # Use Title instead of title
+    episodes = Episode.objects.filter(Title__icontains=query) if query else Episode.objects.all()
+    return render(request, 'home.html', {'episodes': episodes, 'query': query})
