@@ -20,21 +20,25 @@ def Explore(request):
 def home(request):
     # If the user is not authenticated, redirect them to the login page
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect('msg')
 
     # Ensure the user has a profile
     if not hasattr(request.user, 'profile'):
         Profile.objects.create(user=request.user)
 
-    # Fetch free episodes for all users
+    # Check if the user clicked "More" (pass a query parameter like ?view=all)
+    view_all = request.GET.get('view') == 'all'
+
+    # Fetch free episodes (default behavior)
     episodes = Episode.objects.filter(is_premium=False)
 
-    # If the user is premium, show all episodes
-    # if request.user.profile.is_premium:
-    #     episodes = Episode.objects.all()
+    # Show all episodes only if "More" is clicked and user is premium or creator
+    if view_all and (request.user.profile.is_premium or request.user.profile.is_creator):
+        episodes = Episode.objects.all()
 
     context = {
         'episodes': episodes,
+        'view_all': view_all,  # Add this flag to handle UI changes
     }
     return render(request, 'home.html', context)
 
@@ -85,7 +89,12 @@ def signUpPremium(request):
             return redirect('/')
 
     # return redirect('login')
-    return render(request, 'signup.html')
+    return render(request, 'pre_signup.html')
+
+
+def signup_view(request):
+    user_role = request.user.role  # Assumes the user model has a role attribute
+    return render(request, 'signup.html', {'user_role': user_role})
 
 
 def loginUser(request):
@@ -177,24 +186,35 @@ def activate_premium(request):
 
 
 def more_option(request):
+    # Check if the user is authenticated
     if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login if not authenticated
+        return redirect('login')
 
-    # Only premium users can access this page
-    if not request.user.profile.is_premium:
-        return redirect('home')  # Redirect non-premium users back to the home page
+    # Ensure the user has a profile
+    if not hasattr(request.user, 'profile'):
+        Profile.objects.create(user=request.user)
 
-    # Fetch all episodes (both free and premium)
-    episodes = Episode.objects.all()
+    # Fetch episodes based on user type
+    if request.user.profile.is_premium or request.user.profile.is_creator:
+        # Fetch all episodes for premium users or creators
+        episodes = Episode.objects.all()
+    else:
+        # Restrict to free episodes for regular users
+        episodes = Episode.objects.filter(is_premium=False)
 
     context = {
         'episodes': episodes,
+        'is_more_page': True,  # Add this to indicate the request is for the more page
     }
     return render(request, 'home.html', context)
 
 
 def search_episodes(request):
-    query = request.GET.get('q', '')  # Get the query from the search form
+    query = request.GET.get('s', '')  # Get the query from the search form
     # Use Title instead of title
     episodes = Episode.objects.filter(Title__icontains=query) if query else Episode.objects.all()
     return render(request, 'home.html', {'episodes': episodes, 'query': query})
+
+
+def message(request):
+    return render(request, 'msg.html')

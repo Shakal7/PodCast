@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import pytest
 import time
 
 
@@ -18,7 +19,8 @@ def driver():
 
 # Test data: username, password, expected result
 test_data = [
-    ("Priom", "Priom", True),  # Valid credentials
+    ("Alisa", "Alisa", True),  # Valid credentials
+    ("Sp", "SpSp", True),  # Valid credentials
     ("Sokal", "sokal", False),  # Invalid credentials
     ("Shakal", "shakal", False),  # Mixed case
     # ("", "validpassword2", False),  # Missing username
@@ -29,7 +31,7 @@ test_data = [
 @pytest.mark.parametrize("username,password,expected_result", test_data)
 def test_login(driver, username, password, expected_result):
     # Open the website
-    driver.get("http://127.0.0.1:8000/")
+    driver.get("http://127.0.0.1:8000/login")
 
     # Wait for the username field to load
     WebDriverWait(driver, 10).until(

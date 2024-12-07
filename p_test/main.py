@@ -24,21 +24,21 @@ driver.maximize_window()
 # driver.find_element(By.ID, "password").send_keys("validpassword")
 #
 # driver.find_element(By.NAME, "login").click()
-#
-#
-# time.sleep(360)
-# driver.close()
 
-
-username_box = driver.find_element(By.ID, "username")
-username_box.send_keys("username")
-
-password_box = driver.find_element(By.ID, "password")
-password_box.send_keys("password")
-
-login_button = driver.find_element(By.ID, "login")
-login_button.click()
-
-assert "home" in driver.page_source
 
 time.sleep(360)
+driver.close()
+
+
+# username_box = driver.find_element(By.ID, "username")
+# username_box.send_keys("username")
+#
+# password_box = driver.find_element(By.ID, "password")
+# password_box.send_keys("password")
+#
+# login_button = driver.find_element(By.ID, "login")
+# login_button.click()
+#
+# assert "home" in driver.page_source
+#
+# time.sleep(360)

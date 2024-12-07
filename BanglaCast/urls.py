@@ -28,6 +28,7 @@ urlpatterns = [
     path('signUpCreator', a_views.signUpCreator, name='signUpCreator'),
     path('signUpListener', a_views.signUpListener, name='signUpListener'),
     path('signUpPremium', a_views.signUpPremium, name='signUpPremium'),
+    path('signup_view', a_views.signup_view, name='signup_view'),
     path('login', a_views.loginUser, name='login'),
     path('logOut', a_views.logOut, name='logOut'),
     path('upload_episode/', a_views.upload_episode, name='upload_episode'),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('player/<str:id>', a_views.player, name='player'),
     path('more/', a_views.more_option, name='more_option'),
     path('search/', a_views.search_episodes, name='search_episodes'),
+    path('msg', a_views.message, name='msg'),
 
 ]
 

@@ -38,7 +38,7 @@
 }
 label{
 	color: #fff;
-	font-size: 2.3em;
+	font-size: 1.3em;
 	justify-content: center;
 	display: flex;
 	margin: 60px;
@@ -58,26 +58,24 @@ input{
 	outline: none;
 	border-radius: 5px;
 }
-button{
-	width: 60%;
-	height: 40px;
-	margin: 10px auto;
-	justify-content: center;
-	display: block;
-	color: #fff;
-	background: #573b8a;
-	font-size: 1em;
-	font-weight: bold;
-	margin-top: 20px;
-	outline: none;
-	border: none;
-	border-radius: 5px;
-	transition: .2s ease-in;
-	cursor: pointer;
-}
-button:hover{
-	background: #6d44b8;
-}
+button {
+            width: 47%;
+            height: 40px;
+            margin: 10px auto;
+            display: block;
+            color: #fff;
+            background: #573b8a;
+            font-size: 1em;
+            font-weight: bold;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            transition: .2s ease-in;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #6d44b8;
+        }
 .login{
 	height: 460px;
 	background: #eee;
@@ -113,16 +111,17 @@ button:hover{
 
 			<div class="signup">
 				<form method="POST">
-					<label for="chk" aria-hidden="true">Sign up</label>
+					<label for="chk" aria-hidden="true">Create a new account</label>
 					<input type="text" name="username" placeholder="Username"  required="">
 					<input type="email" name="email" placeholder="Email" required="">
 					<input type="password" name="password" placeholder="Password" required="">
                     <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
 <!--					<button>Sign up</button>-->
-					<input type="submit" value="submit" name="signup" style="width: 60%; height: 40px; margin: 10px auto; justify-content: center ">
+					<button type="submit" name="signup">Sign Up</button>
 				</form>
 				</div>
 	       </div>
 
- </body>
+</body>
 </html>

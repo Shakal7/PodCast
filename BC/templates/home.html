@@ -137,13 +137,15 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'signUpCreator'  %}">Creator</a>
             <a class="dropdown-item" href="{% url 'signUpListener'  %}">Listener</a>
+            <a class="dropdown-item" href="{% url 'signUpPremium'  %}">Listener</a>
+
             <div class="dropdown-divider"></div>
           </div>
         </li>
          {% if user.is_authenticated %}
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logOut' %}">Log Out</a>
+            <a class="nav-link" href="{% url 'logOut' %}">LogOut</a>
           </li>
         <li class="nav-item" style="color:white">
 
@@ -157,7 +159,7 @@
 
       </ul>
      <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search_episodes' %}">
-    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search for episodes..." aria-label="Search">
+    <input class="form-control mr-sm-2" type="search" name="s" placeholder="Search for episodes..." aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
 
@@ -165,17 +167,14 @@
   </nav>
 
 <!-- home.html -->
+<!-- home.html -->
 <div class="row justify" style="padding: 7% 2%;">
     {% for i in episodes %}
     <div class="col-6 col-md-4 col-lg-3 mb-4">
         <div class="card">
-            <!-- Card Image -->
-            <img class="card-img-top" src="{{ i.image.url }}" alt="Episode Image" >
-
-            <!-- Card Body Content -->
+            <img class="card-img-top" src="{{ i.image.url }}" alt="Episode Image">
             <div class="card-body">
-                <!-- Corrected fields with lowercase -->
-                 <h5 class="card-title">{{ i.Title }}</h5>
+                <h5 class="card-title">{{ i.Title }}</h5>
                 <h6 class="card-subtitle">{{ i.Artist }}</h6>
                 <p class="card-text">{{ i.Type }}</p>
                 <a href="{% url 'player' i.id %}" class="btn btn-play mt-2">
@@ -192,6 +191,14 @@
     {% endfor %}
 </div>
 
+<!-- Conditionally Show "Back to Home" Button -->
+{% if is_more_page %}
+<div class="text-center mt-4">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+</div>
+{% endif %}
+
+
 <!-- More Episodes Button for Premium Users -->
 {% if request.user.is_authenticated and request.user.profile.is_premium %}
 <div class="d-grid gap-2 col-2 max-auto" style="padding-left:37%; padding-top:3%;">
@@ -203,6 +210,7 @@
 {% if request.user.profile.is_creator %}
 <div class="d-flex justify-content-center" style="gap: 30px; padding-top: 3%;">
     <a href="{% url 'more_option' %}" class="btn btn-primary">More Episodes</a>
+
     <a href="{% url 'upload_episode' %}" class="btn btn-primary">Add Episode</a>
 </div>
 {% endif %}
