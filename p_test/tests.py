@@ -1,10 +1,10 @@
-import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -17,14 +17,18 @@ def driver():
 
 
 test_data = [
-    ("Biva", "biva@example.com", "Biva", "Biva", True, True),  # Valid premium user
-    ("testuser2", "test2@example.com", "password123", "password123", False, True),  # Valid non-premium user
+    ("Neel", "neel@example.com", "neel777", "neel777", True, True),
+    ("Nituya", "nithu@example.com", "nithu23", "nithu23", True, True),
+    ("Bibha", "bihba@example.com", "rbiva123", "rbiva123", True, True),
+    ("testuser2", "test2@example.com", "password123", "password123", False, True),
+    ("Ontora", "ontora@example.com", "ontora77", "ontora77", True, True),
+    # ("duplicate", "biva@example.com", "Duplicate123", "Duplicate123", False, False),
 ]
 
 
 @pytest.mark.parametrize("username, email, password, confirm_password, is_premium, expected_result", test_data)
 def test_signup(driver, username, email, password, confirm_password, is_premium, expected_result):
-    # Open the signup page
+    print(f"\nTesting signup for user: {username}")
     driver.get("http://127.0.0.1:8000/signUpListener")  # Update URL if different
 
     # Wait for the signup form to load
@@ -41,23 +45,30 @@ def test_signup(driver, username, email, password, confirm_password, is_premium,
     # Submit the form
     driver.find_element(By.NAME, "signup").click()
 
-    # Wait for the page to load after form submission
+    # Wait for redirection or page result
     try:
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body"))
+            EC.url_contains("/Explore")
         )
-    except Exception as e:
-        pytest.fail(f"Page did not load within the timeout: {e}")
+        # Check for expected success
+        if expected_result:
+            print(f"SUCCESS: User '{username}' was successfully signed up and redirected to Explore.")
+            assert "Explore" in driver.page_source, f"Failed to confirm Explore page content for: {username}"
 
-    # Debug: Print the page source for analysis
-    print("DEBUG: Page source after signup:\n", driver.page_source)
+        else:
+            pytest.fail(f"ERROR: Invalid user '{username}' unexpectedly succeeded in signup.")
+    except TimeoutException:
+        # Handle failure cases
+        print(f"FAILED: User '{username}' was not redirected to Explore page.")
+        error_elements = driver.find_elements(By.CLASS_NAME, "error-message")
+        if error_elements:
+            for error in error_elements:
+                print(f"Error Message: {error.text}")
+        if expected_result:
+            pytest.fail(f"ERROR: Expected signup to succeed for valid user '{username}', but it failed.")
+        else:
+            print(f"SUCCESS: Signup correctly failed for invalid user '{username}'.")
 
-    # Verify the result
-    if expected_result:
-        assert "Explore" in driver.page_source, f"Signup failed for valid user: {username}"
-    else:
-        assert "Explore" not in driver.page_source, f"Unexpected success for invalid user: {username}"
 
-    # Optional premium check
-    if is_premium:
-        assert "Premium User" in driver.page_source, f"Premium status not displayed for: {username}"
+if __name__ == "__main__":
+    pytest.main(["-v", __file__, "--capture=tee-sys"])

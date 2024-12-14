@@ -114,3 +114,102 @@ Error for Fourth Episode in search operation: Message:
 
 
 --------------------------------------------------
+Error for Episode1 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode2 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Third Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Fourth Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode1 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode2 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Third Episode in search operation: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.109)
+Stacktrace:
+	GetHandleVerifier [0x00663433+25059]
+	(No symbol) [0x005ECE34]
+	(No symbol) [0x004CBEC3]
+	(No symbol) [0x004AD93B]
+	(No symbol) [0x0053800F]
+	(No symbol) [0x0054AE49]
+	(No symbol) [0x00531C96]
+	(No symbol) [0x00503FAC]
+	(No symbol) [0x00504F3D]
+	GetHandleVerifier [0x00955593+3113795]
+	GetHandleVerifier [0x0096A25A+3198986]
+	GetHandleVerifier [0x00962A32+3168226]
+	GetHandleVerifier [0x007032A0+680016]
+	(No symbol) [0x005F577D]
+	(No symbol) [0x005F2A28]
+	(No symbol) [0x005F2BC5]
+	(No symbol) [0x005E5820]
+	BaseThreadInitThunk [0x76227BA9+25]
+	RtlInitializeExceptionChain [0x771DC0CB+107]
+	RtlClearBits [0x771DC04F+191]
+
+
+--------------------------------------------------
+Error for Episode1 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode2 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Third Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Fourth Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode1 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode2 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Third Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Fourth Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode1 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Episode2 in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Third Episode in search operation: Message: 
+
+
+--------------------------------------------------
+Error for Fourth Episode in search operation: Message: 
+
+
+--------------------------------------------------

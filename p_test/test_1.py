@@ -21,10 +21,11 @@ def driver():
 test_data = [
     ("Alisa", "Alisa", True),  # Valid credentials
     ("Sp", "SpSp", True),  # Valid credentials
-    ("Sokal", "sokal", False),  # Invalid credentials
-    ("Shakal", "shakal", False),  # Mixed case
-    # ("", "validpassword2", False),  # Missing username
-    # ("validuserid3", "", False),  # Missing password
+    ("Sokal", "sokal", False),
+    ("Ashrafi", "Ashrafi", True),
+    ("Shakal", "shakal", False),
+    # ("", "validpassword2", False),
+    # ("validuserid3", "", False),
 ]
 
 
